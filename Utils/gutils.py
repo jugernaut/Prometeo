@@ -99,28 +99,6 @@ class planoCartesiano():
             if len(yticks) != 0:
                 self.__ax[n-1].set_yticks(yticks)
 
-    def limits(self, n = 1, x = (), y = ()):           
-        assert (n >= 1 and n <= self.__nfigs), \
-        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)        
-
-        if len(x):            
-            offset = np.fabs(x[1] - x[0]) * 0.2
-            self.__ax[n-1].set_xlim((x[0]-offset,x[1]+offset))
-        if len(y):
-            offset = np.fabs(y[1] - y[0]) * 0.2
-            self.__ax[n-1].set_ylim((y[0]-offset,y[1]+offset))
-
-
-    def colorbar(self, n=1, m=None, par=None):
-        assert (n >= 1 and n <= self.__nfigs), \
-        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)  
-        
-        if par != None:   
-            self.__fig.colorbar(m, ax = self.__ax[n-1], **par)
-        else:
-            self.__fig.colorbar(m, ax = self.__ax[n-1])
-
-                
     def legend(self, par=None):
         """
         Muestra las leyendas de todos los subplots, si están definidos.
@@ -156,25 +134,13 @@ class planoCartesiano():
         
         """
         plt.show()
+        
+    def annotate(self, n = 1, par=None):   
+        
+        assert (n >= 1 and n <= self.__nfigs), \
+        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)        
 
-def RMS(ua, u):
-    """
-    Calcula el error cuadrático medio entre u y ua.
-    
-    Parameters
-    ----------
-    ua: np.array
-    Arreglo de valores aproximados.
-    
-    u: np.array
-    Arreglo de valores exactos.
-    
-    Returns
-    -------
-    float
-    El error cuadrático medio entre u y ua.
-    """
-    return np.sqrt(np.sum((ua - u)**2) / len(ua))
+        return self.__ax[n-1].annotate(**par)
         
 #----------------------- TEST OF THE MODULE ----------------------------------   
 if __name__ == '__main__':
