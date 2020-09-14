@@ -70,6 +70,16 @@ class planoCartesiano():
             out = self.__ax[n-1].scatter(x, y)         
         return out      
 
+    def bar(self, n = 1, x = None, y = None, par=None):        
+        assert (n >= 1 and n <= self.__nfigs), \
+        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)        
+
+        if par != None:
+            out = self.__ax[n-1].bar(x, y, **par)
+        else:
+            out = self.__ax[n-1].bar(x, y)
+                    
+        return out     
 
     def format_func(value, tick_number):
         # find number of multiples of pi/2
@@ -99,6 +109,15 @@ class planoCartesiano():
             if len(yticks) != 0:
                 self.__ax[n-1].set_yticks(yticks)
 
+    def label_ticks(self, n = 1, xlabel = [], ylabel = []):
+        assert (n >= 1 and n <= self.__nfigs), \
+        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)   
+        
+        if len(xlabel):
+            self.__ax[n-1].set_xticklabels(xlabel)
+        if len(ylabel):
+            self.__ax[n-1].set_yticklabels(ylabel)
+            
     def limits(self, n = 1, x = (), y = ()):
         assert (n >= 1 and n <= self.__nfigs), \
         "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)
