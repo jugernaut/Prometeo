@@ -36,6 +36,9 @@ class planoCartesiano():
         self.__fig.suptitle(title, fontweight='light', fontsize='12', color='blue')
         self.__nfigs =  rows *  cols
 
+        import matplotlib
+        self.__mpl_ver = matplotlib.__version__.split(sep='.')
+        
         if par != None:
             Nfill = self.__nfigs - len(par)
         else:
@@ -175,10 +178,28 @@ class planoCartesiano():
         plt.show()
         
     def annotate(self, n = 1, par=None):   
-        
-        assert (n >= 1 and n <= self.__nfigs), \
-        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)        
+        """
+        Parameters
+        ----------
+        n : TYPE, optional
+            DESCRIPTION. The default is 1.
+        par : TYPE, optional
+            DESCRIPTION. The default is None.
 
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        assert (n >= 1 and n <= self.__nfigs), \
+        "Plotter.plot(%d) out of bounds. Valid bounds : [1,%d]" % (n,self.__nfigs)    
+ 
+        # Debido a incompatibilidades de Matplotlib 3.2
+        if int(self.__mpl_ver[1]) < 3:
+            par['s'] = par['text']
+            del par['text']
+            
         return self.__ax[n-1].annotate(**par)
 
 
